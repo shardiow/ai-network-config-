@@ -1,4 +1,0 @@
-netmiko
-pyyaml
-GitPython
-openai
