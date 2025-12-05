@@ -1,0 +1,24 @@
+name: Auto Network Deployment
+ 
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "desired-configs/**"
+ 
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    # Define permissions for the GITHUB_TOKEN (Best practice)
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4 # Pinning to v4 for security
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Run AI agent for drift check and deployment
+        run: python agent/ai_agent.py
+        env: # Pass secrets as environment variables to the Python script
+          NET_USER: ${{ secrets.NET_USER }}
+          NET_PASS: ${{ secrets.NET_PASS }}
